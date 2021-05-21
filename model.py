@@ -14,4 +14,4 @@ regressor=regressor.fit(X, y)
 pickle.dump(regressor, open('final_model.pkl','wb'))
 # Loading model to compare the results
 model = pickle.load(open('model.pkl','rb'))
-print(model.predict([[convert_to_int('Good'),69.6,68.4,78.3,5,80]]))
+print(model.predict([[convert_to_int('Good'),69.6,68.4,78.3,5,convert_to_int('completed'),60,convert_to_int('yes'),80]]))
