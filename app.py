@@ -11,10 +11,13 @@ def convert_to_int(word):
     return word_dict[word]
 X=dataframe.loc[:,['comSkill','ssc_p','hsc_p','degree_p','No_certi','internships','etest_p','sports','placetest_p']]
 y=dataframe.loc[:,['status']]
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state = 0)
+  
+# importing the random forest classifier model and training it on the dataset
 from sklearn.ensemble import RandomForestClassifier
-regressor = RandomForestClassifier(n_estimators=10,criterion='entropy')
-#Fitting model with training data
-regressor=regressor.fit(X, y)
+regressor = RandomForestClassifier()
+regressor.fit(X_train, y_train)
 # Saving model to disk
 pickle.dump(regressor, open('final_model.pkl','wb'))
 # Loading model to compare the results
