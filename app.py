@@ -1,74 +1,76 @@
+
 import streamlit as st
-import pickle
 import numpy as np
-model = pickle.load(open('final_model.pkl','rb'))
+import pandas as pd
+import pickle
+
+models = pickle.load(open('model.pkl', 'rb'))
+
+#Fitting model with training data
 
 
-
-st.beta_set_page_config(
-    page_title="Prediction App",
-    page_icon="🤖",
-    layout="centered",
-    initial_sidebar_state="expanded",
-)
-
-from PIL import Image
-image = Image.open('banner.jpeg')
-
-st.image(image,
-      use_column_width=True)
+def home():
+    return "welcome"
 
 
-def predict_age(Length,Diameter,Height,Whole_weight,Shucked_weight,Viscera_weight,Shell_weight):
-    input=np.array([[Length,Diameter,Height,Whole_weight,Shucked_weight,Viscera_weight,Shell_weight]]).astype(np.float64)
-    prediction = model.predict(input)
-    #pred = '{0:.{1}f}'.format(prediction[0][0], 2)
-    return int(prediction)
+def predict(comSkill, ssc_p, hsc_p, degree_p, No_certi,internships, etest_p, sports, placetest_p):
+    prediction = models.predict([[comSkill, ssc_p, hsc_p, degree_p, No_certi, internships,etest_p, sports, placetest_p]])
+    print(prediction)
+    return prediction
+
+
+def convert_to_int(word):
+    word_dict = {'Good': 1, 'Bad': 0, 'yes': 1, 'no': 0, 'completed': 1, 'none': 0}
+    return word_dict[word]
 
 
 def main():
-    #st.title("Abalone Age Prediction")
-    html_temp = """
-    <div style="background:#025246 ;padding:10px">
-    <h2 style="color:white;text-align:center;">Abalone Age Prediction ML App </h2>
-    </div>
-    """
-    st.markdown(html_temp, unsafe_allow_html = True)
+    st.title("STUDENT PLACEMENT PREDICTION⭐")
+    st.sidebar.header('STUDENT DETAILS💻')
+    name = st.sidebar.text_input('Name 📋')
+    sl_no = st.sidebar.text_input('Register Number 📋')
+    gender = st.sidebar.radio("Gender 👫", ('Male', 'Female'))
+    comSkill = st.sidebar.radio("Communication Skills 💬🎤", ('Good', 'Bad'))
 
-    Length = st.text_input("Length")
-    Diameter = st.text_input("Diameter")
-    Height = st.text_input("Height")
-    Whole_weight = st.text_input("Whole weight")
-    Shucked_weight = st.text_input("Shucked weight")
-    Viscera_weight = st.text_input("Viscera weight")
-    Shell_weight = st.text_input("Shell weight")
+    comSkill1 = convert_to_int(comSkill)
 
-    safe_html ="""  
-      <div style="background-color:#80ff80; padding:10px >
-      <h2 style="color:white;text-align:center;"> The Abalone is young</h2>
-      </div>
-    """
-    warn_html ="""  
-      <div style="background-color:#F4D03F; padding:10px >
-      <h2 style="color:white;text-align:center;"> The Abalone is middle aged</h2>
-      </div>
-    """
-    danger_html="""  
-      <div style="background-color:#F08080; padding:10px >
-       <h2 style="color:black ;text-align:center;"> The Abalone is old</h2>
-       </div>
-    """
+    ssc_p = st.sidebar.slider('SSC percentage', 0, 1, 100)
+    ssc_b = st.sidebar.radio("SSC Board 📚", ('Central', 'Other'))
+    hsc_p = st.sidebar.slider('HSC percentage', 0, 1, 100)
+    hsc_b = st.sidebar.radio("HSC Board 📚", ('Central', 'Other'))
+    hsc_s = st.sidebar.radio("HSC Group", ('Science', 'Arts', 'biology', 'Others'))
+    degree_t = st.radio("Degree(Engineering) 🎓", ('Computer science Engineering', ' B.Tech IT', 'Electronics','Others'))
+    degree_p = st.slider('Degree percentage', 0, 1, 100)
+    No_certi = st.number_input('Number of certifications 🏆📜')
+    internships = st.radio("Internships 👨‍💻", ('completed', 'none'))
+    internships1 = convert_to_int(internships)
+    etest_p = st.slider('E-tests(aptitude)  🏁', 0, 1, 100)
+    sports = st.radio("Through Sports ⚽️🏏🏃‍♂️ ", ('yes', 'no'))
+    sports1 = convert_to_int(sports)
+    placetest_p = st.slider('Placement Percentage 🎓🎓 ', 0, 1, 100)
+    st.radio("Interest about placement ✔️", ('Interested', 'Not Interested'))
+    
 
-    if st.button("Predict the age"):
-        output = predict_age(Length,Diameter,Height,Whole_weight,Shucked_weight,Viscera_weight,Shell_weight)
-        st.success('The age is {}'.format(output))
+    result = ""
+    if st.button("submit"):
+        result = predict(comSkill1, ssc_p, hsc_p, degree_p, No_certi, internships1,etest_p, sports1, placetest_p)
+        print(result)
 
-        if output == 1:
-            st.markdown(safe_html,unsafe_allow_html=True)
-        elif output == 2:
-            st.markdown(warn_html,unsafe_allow_html=True)
-        elif output == 3:
-            st.markdown(danger_html,unsafe_allow_html=True)
+        st.subheader("Entered Details")
+        st.write("Name 📋 : ", name)
+        st.write("Register Number 📋 :", sl_no)
+        st.write("SSC percentage 📚 :", ssc_p)
+        st.write("HSC percentage 📚 :", hsc_p)
+        st.write("Degree percentage 🎓 :", degree_p)
+        st.write("E-Test(Aptitude) 🏁 :", etest_p)
+        st.write("Placement Percentage 🎓  :", etest_p)
+        st.write("Communication Skills 💬🎤 :", comSkill)
+        st.write("Internship status 👨‍💻 :", internships)
+        st.write("Number of certifications 🏆📜 :", No_certi)
+        st.write("Through sports ⚽️🏏🏃‍♂️  :", sports)
 
-if __name__=='__main__':
+        st.success('Predicted Result is {}'.format(result))
+
+
+if __name__ == "__main__":
     main()
