@@ -1,25 +1,17 @@
 import pandas as pd
-import numpy as np
-
-dataframe = pd.read_csv('Placementsample1.csv')
+import pickle
+dataframe = pd.read_csv(r'C:\Users\PRAMILA\Downloads\Placementsample1.csv')
 def convert_to_int(word):
     word_dict = {'Good':1, 'Bad':0,'yes':1,'no':0,'completed':1,'none':0}
     return word_dict[word]
 X=dataframe.loc[:,['comSkill','ssc_p','hsc_p','degree_p','No_certi','internships','etest_p','sports','placetest_p']]
 y=dataframe.loc[:,['status']]
-#from sklearn.model_selection import train_test_split
-#X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=0)
 from sklearn.ensemble import RandomForestClassifier
 regressor = RandomForestClassifier(n_estimators=10,criterion='entropy')
-
-#Fitting model with trainig data
+#Fitting model with training data
 regressor=regressor.fit(X, y)
-
-
-#Fitting model with trainig data
-#regressor=regressor.fit(X, y)
-#regressor=regressor.fit(X_train,y_train)
-
-
-import pickle   
-pickle.dump(regressor, open('final_model.pkl', 'wb'))
+# Saving model to disk
+pickle.dump(regressor, open('model.pkl','wb'))
+# Loading model to compare the results
+model = pickle.load(open('model.pkl','rb'))
+print(model.predict([[convert_to_int('Good'),69.6,68.4,78.3,5,convert_to_int('completed'),60,convert_to_int('yes'),80]]))
