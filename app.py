@@ -3,12 +3,6 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import pickle
-
-models = pickle.load(open('final_model.pkl', 'rb'))
-
-#Fitting model with training data
-
-
 def home():
     return "welcome"
 
@@ -41,7 +35,7 @@ def main():
     hsc_s = st.sidebar.radio("HSC Group", ('Science', 'Arts', 'biology', 'Others'))
     degree_t = st.radio("Degree(Engineering) 🎓", ('Computer science Engineering', ' B.Tech IT', 'Electronics','Others'))
     degree_p = st.slider('Degree percentage', 0, 1, 100)
-    No_certi = st.number_input('Number of certifications 🏆📜')
+    No_certi = st.text_input('Number of certifications 🏆📜')
     internships = st.radio("Internships 👨‍💻", ('completed', 'none'))
     internships1 = convert_to_int(internships)
     etest_p = st.slider('E-tests(aptitude)  🏁', 0, 1, 100)
@@ -74,3 +68,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
