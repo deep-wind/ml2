@@ -3,6 +3,8 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import pickle
+
+models = pickle.load(open('final_model.pkl', 'rb'))
 def home():
     return "welcome"
 
