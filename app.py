@@ -24,7 +24,8 @@ pickle.dump(regressor, open('final_model.pkl','wb'))
 model = pickle.load(open('final_model.pkl','rb'))
 print(model.predict([[convert_to_int('Good'),69.6,68.4,78.3,5,convert_to_int('completed'),60,convert_to_int('yes'),80]]))
 
-models = pickle.load(open('final_model.pkl', 'rb'))
+
+models = pickle.load(open('model.pkl', 'rb'))
 def home():
     return "welcome"
 
@@ -90,6 +91,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
