@@ -20,8 +20,6 @@ regressor=regressor.fit(X, y)
 #regressor=regressor.fit(X, y)
 #regressor=regressor.fit(X_train,y_train)
 
-from sklearn.metrics import accuracy_score
-score=accuracy_score(y_test,y_pred)
-print(scorce)
+
 import pickle   
 pickle.dump(regressor, open('final_model.pkl', 'wb'))
