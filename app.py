@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 import pickle
 
+
+models = pickle.load(open('model.pkl', 'rb'))
 def home():
     return "welcome"
 
