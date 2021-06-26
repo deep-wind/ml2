@@ -32,12 +32,12 @@ from sklearn.ensemble import RandomForestClassifier
 rand_forest = RandomForestClassifier()
 rand_forest=rand_forest.fit(X_train,Y_train)
 print(rand_forest.predict([[6,0]]))
-pickle.dump(rand_forest, open('model1.pkl','wb'))
+pickle.dump(rand_forest, open('model.pkl','wb'))
 # Loading model to compare the results
-model = pickle.load(open('model1.pkl','rb'))
+model = pickle.load(open('model.pkl','rb'))
 
 
-models = pickle.load(open('model1.pkl', 'rb'))
+models = pickle.load(open('model.pkl', 'rb'))
 def home():
     return "welcome"
 
