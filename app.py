@@ -54,7 +54,7 @@ def main():
     regno= st.text_input('Register Number 📋')
     dep= st.text_input('Department 📋')
     cgpa=st.number_input('CGPA',min_value=0.0,max_value=10.0,value=0.0,step=0.5) 
-    arrear=st.number_input('Number of Arrears',min_value=0,max_value=50,value=0,step=1) 
+    arrear=st.number_input('Number of Arrears',min_value=0,max_value=20,value=0,step=1) 
     st.radio("Interest about placement ✔️", ('Interested', 'Not Interested'))
 
     result = ""
